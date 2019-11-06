@@ -1,0 +1,13 @@
+version: "2"
+
+services: 
+  maav:
+    image: mission9
+    volumes:
+      - .:/mission9
+      # - $HOME/.Xauthority:/root/.Xauthority:rw # Enable to allow GUIs on Linux (X-server only)
+    environment:
+      - DISPLAY
+    network_mode: "host"
+    container_name: maav
+    command: "/bin/bash"

@@ -10,4 +10,4 @@ services:
       - DISPLAY
     network_mode: "host"
     container_name: maav
-    command: "/bin/bash"
+    command: "/bin/bash --init-file /mission9/scripts/setup-ros-source.sh"

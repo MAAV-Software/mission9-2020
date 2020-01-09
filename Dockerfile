@@ -1,4 +1,4 @@
-FROM ros:melodic
+FROM FROM osrf/ros:melodic-desktop-full
 
 WORKDIR /
 

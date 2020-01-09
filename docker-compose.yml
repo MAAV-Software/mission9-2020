@@ -2,12 +2,18 @@ version: "2"
 
 services: 
   maav:
-    image: mission9
+    image: melodic:dev
+    privileged: true
     volumes:
-      - .:/mission9
-      # - $HOME/.Xauthority:/root/.Xauthority:rw # Enable to allow GUIs on Linux (X-server only)
+      # Share the mission9 directory
+      - .:/mission9:rw
+      # Share config files
+      - $HOME/.tmux.conf:/root/.tmux.conf:rw
+      # GUI settings
+      - $HOME/.Xauthority:/root/.Xauthority:rw # Enable to allow GUIs on Linux (X-server only)
+      - /tmp/.X11-unix:/tmp/.X11-unix # needed for GUI
     environment:
       - DISPLAY
     network_mode: "host"
-    container_name: maav
+    container_name: maav-rywunder
     command: "/bin/bash --init-file /mission9/scripts/setup-ros-source.sh"

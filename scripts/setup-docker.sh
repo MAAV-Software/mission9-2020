@@ -48,6 +48,9 @@ apt-get install -y libqhull-dev # Convex hull library
 apt-get install -y libpcl-* # Point Could Library
 apt-get install -y gcc5 # GCC 5 required to build some libraries
 apt-get install -y sl # system libraries
+apt-get install -y tmux # terminal manager
+apt-get install -y vim # l33t ide
+apt-get install -y python-catkin-tools # catkin CLI tools
 
 num_procs_avail=$(($(grep -c ^processor /proc/cpuinfo)-1))
 num_procs_avail=$((num_procs_avail > 1 ? num_procs_avail : 1))

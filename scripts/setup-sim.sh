@@ -1,10 +1,5 @@
 #!/bin/bash
 
-# Install gazebo9 simulator
-echo "Installing Gazebo9"
-apt-get install protobuf-compiler -y
-curl -sSL http://get.gazebosim.org | sh
-
 # Install PX4 firmware
 echo "Installing PX4 firmware"
 git clone --single-branch --branch v1.8.2 https://github.com/PX4/Firmware/ PX4Firmware

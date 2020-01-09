@@ -2,7 +2,7 @@ version: "2"
 
 services: 
   maav:
-    image: melodic:dev
+    image: mission9
     privileged: true
     volumes:
       # Share the mission9 directory

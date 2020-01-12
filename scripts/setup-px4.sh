@@ -17,3 +17,27 @@ CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/usr/bin/gazebo
 cmake ..
 make -j
 make install
+
+# Clone and build PX4 Avoidance
+echo "deb http://packages.ros.org/ros/ubuntu $(lsb_release -sc) main" > /etc/apt/sources.list.d/ros-latest.list
+apt-key adv --keyserver 'hkp://keyserver.ubuntu.com:80' --recv-key C1CF6E31E6BADE8868B172B4F42ED6FBAB17C654
+apt update
+apt-get install -y ros-melodic-desktop-full
+source /opt/ros/melodic/setup.bash
+
+apt-get install -y ros-melodic-gazebo9-*
+rosdep init
+rosdep update
+
+wget https://raw.githubusercontent.com/mavlink/mavros/master/mavros/scripts/install_geographiclib_datasets.sh
+chmod +x install_geographiclib_datasets.sh
+sudo ./install_geographiclib_datasets.sh
+
+apt-get install -y libpcl1 ros-melodic-octomap-* ros-melodic-yaml-*
+
+# EVERYTHING BEYOND THIS POINT CAN'T BE DONE DURING DOCKER IMAGE BUILDING
+# cd ~/mission9/workspace/src
+# git clone https://github.com/PX4/avoidance.git #TODO - checkout specific commit / tag
+
+# catkin build -w /mission9/workspace
+# source /mission9/workspace/devel/setup.bash

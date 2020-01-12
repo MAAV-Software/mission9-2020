@@ -9,7 +9,10 @@ curl -sSL http://get.gazebosim.org | sh
 
 # Install PX4 firmware
 echo "Installing PX4 firmware"
-git clone --single-branch --branch v1.8.2 https://github.com/PX4/Firmware/ PX4Firmware
+git clone https://github.com/PX4/Firmware.git PX4Firmware
+# git clone --single-branch --branch v1.8.2 https://github.com/PX4/Firmware/ PX4Firmware
+cd /PX4Firmware
+git submodule update --init --recursive
 
 # Ubuntu Config
 echo "We must first remove modemmanager"

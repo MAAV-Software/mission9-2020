@@ -33,7 +33,7 @@ wget https://raw.githubusercontent.com/mavlink/mavros/master/mavros/scripts/inst
 chmod +x install_geographiclib_datasets.sh
 sudo ./install_geographiclib_datasets.sh
 
-apt-get install -y libpcl1 ros-melodic-octomap-* ros-melodic-yaml-*
+apt-get install -y libpcl1 ros-melodic-octomap-*
 
 # EVERYTHING BEYOND THIS POINT CAN'T BE DONE DURING DOCKER IMAGE BUILDING
 # cd ~/mission9/workspace/src

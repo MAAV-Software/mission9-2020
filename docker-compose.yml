@@ -6,7 +6,7 @@ services:
     privileged: true
     volumes:
       # Share the mission9 directory
-      - .:/mission9:rw
+      - .:/mission9
       # Share config files
       - $HOME/.tmux.conf:/root/.tmux.conf:rw
       # GUI settings

@@ -10,8 +10,8 @@ services:
       # Share config files
       - $HOME/.tmux.conf:/root/.tmux.conf:rw
       # GUI settings
-      - $HOME/.Xauthority:/root/.Xauthority:rw # Enable to allow GUIs on Linux (X-server only)
-      - /tmp/.X11-unix:/tmp/.X11-unix # needed for GUI
+      # - $HOME/.Xauthority:/root/.Xauthority:rw # Enable to allow GUIs on Linux (X-server only)
+      # - /tmp/.X11-unix:/tmp/.X11-unix # needed for GUI
     environment:
       - DISPLAY
     network_mode: "host"

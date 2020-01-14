@@ -10,10 +10,11 @@ services:
       # Share config files
       - $HOME/.tmux.conf:/root/.tmux.conf:rw
       # GUI settings
-      # - $HOME/.Xauthority:/root/.Xauthority:rw # Enable to allow GUIs on Linux (X-server only)
-      # - /tmp/.X11-unix:/tmp/.X11-unix # needed for GUI
+      - $HOME/.Xauthority:/root/.Xauthority:rw # Enable to allow GUIs on Linux (X-server only)
+      - /tmp/.X11-unix:/tmp/.X11-unix # needed for GUI
     environment:
       - DISPLAY
+      - QT_X11_NO_MITSHM=1yy
     network_mode: "host"
     container_name: maav
     command: "/bin/bash --init-file /mission9/scripts/setup-ros-source.sh"

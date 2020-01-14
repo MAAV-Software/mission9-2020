@@ -18,10 +18,15 @@ cmake ..
 make -j
 make install
 
+
+cd /PX4Firmware
+DONT_RUN=1 make px4_sitl_default gazebo
+
 # Clone and build PX4 Avoidance
 echo "deb http://packages.ros.org/ros/ubuntu $(lsb_release -sc) main" > /etc/apt/sources.list.d/ros-latest.list
 apt-key adv --keyserver 'hkp://keyserver.ubuntu.com:80' --recv-key C1CF6E31E6BADE8868B172B4F42ED6FBAB17C654
 apt update
+apt-get install ros-melodic-gazebo-ros-pkgs ros-melodic-gazebo-ros-control -y
 source /opt/ros/melodic/setup.bash
 
 rosdep init

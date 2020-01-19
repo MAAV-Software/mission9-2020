@@ -4,6 +4,11 @@ MAAV code for IARC Mission 9
 ## Setup
 You can build and run this code on Ubuntu 18.04. The docker image [here](https://drive.google.com/open?id=1YE0MNjpv4ig2OeFO3EhkaceaZugoHSeE) contains all the necessary dependencies. It has Ubuntu 18.04 with ROS melodic alongside other dependencies necessary for building and running MAAV's software solution for IARC mission 9. Note, you will need a umich email to download the image. You can also build the image yourself (which takes a while) using the following command:
 
+**NOTE:** Users running Docker on Windows will need to convert the script files from dos to unix. Before following the steps below, run the *windows_fix* script:
+1. `cd scripts/` to enter scripts folder
+2. `./windows_fix.sh` to run fix script
+3. `cd ..` to return to mission9 folder before running docker build
+
 ```bash
 docker build -t mission9 . # Don't forget the dot (.) at the end
 ```

@@ -18,6 +18,8 @@ cmake ..
 make -j
 make install
 
+# install for px4 make
+pip3 install numpy toml empy pyyaml
 
 cd /PX4Firmware
 DONT_RUN=1 make px4_sitl_default gazebo

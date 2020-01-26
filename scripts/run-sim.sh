@@ -1,3 +1,5 @@
+#!/bin/bash
+
 cd /PX4Firmware
 source /opt/ros/melodic/setup.bash
 DONT_RUN=1 make px4_sitl_default gazebo

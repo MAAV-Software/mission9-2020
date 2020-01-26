@@ -53,6 +53,8 @@ else
     popd
 fi
 
+# Install some dependencies for QGroundControl
+apt-get install -y libfuse-dev libpulse-mainloop-glib0
 
 # Download QGroundControl
 if [ ! -f exe/QGroundControl.AppImage ]; then

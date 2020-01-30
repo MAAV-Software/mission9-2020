@@ -3,6 +3,7 @@ logs/
 build/
 bin/
 lib/
+*.swp
 msg_gen/
 srv_gen/
 msg/*Action.msg

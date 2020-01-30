@@ -29,10 +29,35 @@ This command will mount this repo as a volume in your container. You will have a
 
 ```bash
 docker-compose run --rm maav # Spin up docker container
-cd mission9 # Enter project directory
-mkdir -p build # Make a build directory if it is not already there
-cd build # Enter build directory
-cmake .. # Generate Makefiles
-make -j7 # Build using a maximum of 7 jobs
-../bin/my_app # Run an app that was just built
+cd mission9/workspace # Enter project directory and catkin workspace
+catkin_make all # Build everything (all packages)
+```
+
+Once the source code builds, you can use the Catkin workspace diagram below to find executables, respective to which package they are in:
+```
+catkin_ws/               -- WORKSPACE
+  src/                   -- SOURCE SPACE
+  build/                 -- BUILD SPACE
+  devel/                 -- DEVEL SPACE
+    setup.bash          \
+    setup.sh            |-- Environment setup files
+    setup.zsh           /
+    etc/                 -- Generated configuration files
+    include/             -- Generated header files
+    lib/                 -- Generated libraries and other artifacts
+      package_1/
+        bin/             -- Package executables
+        etc/
+        include/
+        lib/
+        share/
+        ...
+      package_n/
+        bin/             -- Package executables
+        etc/
+        include/
+        lib/
+        share/
+    share/               -- Generated architecture independent artifacts
+    ...
 ```

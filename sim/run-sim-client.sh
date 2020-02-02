@@ -1,0 +1,7 @@
+#export GAZEBO_RESOURCE_PATH=${GAZEBO_RESOURCE_PATH}:~/PX4Firmware
+export GAZEBO_MODEL_PATH=${GAZEBO_MODEL_PATH}:~/PX4Firmware/models
+export GAZEBO_MODEL_PATH=${GAZEBO_MODEL_PATH}:$(pwd)/models
+export GAZEBO_PLUGIN_PATH=${GAZEBO_PLUGIN_PATH}:$(pwd)/plugins
+export GAZEBO_RESOURCE_PATH=${GAZEBO_RESOURCE_PATH}:$(pwd)/worlds
+
+gzclient

@@ -1,0 +1,53 @@
+<?xml version="1.0"?>
+<sdf version='1.6'>
+  <model name='3dm_gx3_25'>
+    <pose frame="">0 0 0.015 0 0 0</pose>
+    <link name="imu_link">
+      <inertial>
+        <mass>0.018</mass>
+        <inertia>
+          <ixx>0.000001</ixx>
+          <iyy>0.000001</iyy>
+          <izz>0.000001</izz>
+        </inertia>
+        <pose frame=''>0 0 0 0 -0 0</pose>
+      </inertial>
+      <self_collide>0</self_collide>
+      <enable_wind>0</enable_wind>
+      <kinematic>0</kinematic>
+      <gravity>1</gravity>
+      <visual name="visual">
+        <geometry>
+          <mesh>
+            <uri>model://3dm-gx3-25/meshes/3dm-gx3-25.dae</uri>
+          </mesh>
+        </geometry>
+        <pose>0 0 0 0 0 -1.57</pose>
+      </visual>
+    </link>
+
+    <plugin name='ImuPlugin' filename='libMaavImuPlugin.so'>
+      <robotNamespace></robotNamespace>
+      <linkName>imu_link</linkName>
+      <imuTopic>/imu</imuTopic>
+      <gyroscopeNoiseDensity>0.0003394</gyroscopeNoiseDensity>
+      <gyroscopeRandomWalk>3.8785e-05</gyroscopeRandomWalk>
+      <gyroscopeBiasCorrelationTime>1000.0</gyroscopeBiasCorrelationTime>
+      <gyroscopeTurnOnBiasSigma>0.0087</gyroscopeTurnOnBiasSigma>
+      <accelerometerNoiseDensity>0.004</accelerometerNoiseDensity>
+      <accelerometerRandomWalk>0.006</accelerometerRandomWalk>
+      <accelerometerBiasCorrelationTime>300.0</accelerometerBiasCorrelationTime>
+      <accelerometerTurnOnBiasSigma>0.196</accelerometerTurnOnBiasSigma>
+
+      <!-- <gyroscopeNoiseDensity>2.74155677808038e-05</gyroscopeNoiseDensity> -->
+      <!-- <gyroscopeRandomWalk>5.87610763477447e-16</gyroscopeRandomWalk> -->
+      <!-- <gyroscopeBiasCorrelationTime>1000.0</gyroscopeBiasCorrelationTime> -->
+      <!-- <gyroscopeTurnOnBiasSigma>1.90385887366693e-05</gyroscopeTurnOnBiasSigma> -->
+      <!-- <accelerometerNoiseDensity>2.74155677808038e-05</accelerometerNoiseDensity> -->
+      <!-- <accelerometerRandomWalk>5.87610763477447e-16</accelerometerRandomWalk> -->
+      <!-- <accelerometerBiasCorrelationTime>300.0</accelerometerBiasCorrelationTime> -->
+      <!-- <accelerometerTurnOnBiasSigma>1.90385887366693e-05</accelerometerTurnOnBiasSigma> -->
+    </plugin>
+
+  </model>
+</sdf>

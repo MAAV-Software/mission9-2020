@@ -28,8 +28,8 @@ python -m pip install --upgrade pip
 python -m pip install pandas jinja2 pyserial
 
 # optional python tools
-python -m pip install pyulog
-python -m pip install pyyaml
+python3 -m pip install pyulog
+python3 -m pip install pyyaml
 
 # Install FastRTPS 1.5.0 and FastCDR-1.0.7
 fastrtps_dir=$HOME/eProsima_FastRTPS-1.5.0-Linux

@@ -216,5 +216,11 @@ add_dependencies(listener beginner_tutorials_generate_messages_cpp)
 
 add_executable(offb_node src/offb_node.cpp)
 target_link_libraries(offb_node ${catkin_LIBRARIES})
+
+add_executable(gps_node src/gps_node.cpp)
+target_link_libraries(gps_node ${catkin_LIBRARIES})
+
+add_executable(gps_input src/gps_input.cpp)
+target_link_libraries(gps_input  ${catkin_LIBRARIES})
 #target_link_libraries(talker ${catkin_LIBRARIES})
 #add_dependencies(talker beginner_tutorials_generate_messages_cpp)

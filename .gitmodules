@@ -1,3 +1,0 @@
-[submodule "workspace/src/avoidance"]
-	path = workspace/src/avoidance
-	url = https://github.com/PX4/avoidance

@@ -13,3 +13,9 @@ export GAZEBO_MODEL_DATABASE_URI=""
 
 # Set path to sitl_gazebo repository
 export SITL_GAZEBO_PATH=/px4_sitl/sitl_gazebo
+
+# build catkin workspace
+cd /workspace
+source /workspace/devel/setup.bash
+source /opt/ros/melodic/setup.bash
+catkin build

@@ -5,8 +5,11 @@ services:
     image: mission9
     privileged: true
     volumes:
-      # Share the mission9 directory
-      - .:/mission9
+      # Include custom packages
+      - ./maav:/workspace/src/maav
+      # Share non-ros utilities
+      - ./sim:/sim
+      - ./scripts:/scripts
       # Share config files
       - $HOME/.tmux.conf:/root/.tmux.conf:rw
       # GUI settings

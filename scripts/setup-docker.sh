@@ -14,7 +14,7 @@ DEBIAN_FRONTEND=noninteractive
 # curl                            # Downloading stuff from websites
 # doxygen                         # Documentation
 # ffmpeg                          # Image processing library
-# gcc5                            # GCC 5 required to build some libraries
+# gcc-5                           # GCC 5 required to build some libraries
 # git                             # Version control
 # libboost-all-dev                # Boost library
 # libboost-program-options-dev    # Boost program options
@@ -59,7 +59,7 @@ apt-get install -y \
     curl \
     doxygen \
     ffmpeg \
-    gcc5 \
+    gcc-5 \
     git \
     libboost-all-dev \
     libboost-program-options-dev \

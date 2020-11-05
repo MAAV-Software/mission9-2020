@@ -14,9 +14,9 @@
 
 ### Includes to Use:
 ```cpp
-#include <thread> // std::thread
-#include <mutex>  // std::mutex
-#include <cv>     // std::cv
+#include <thread>             // std::thread
+#include <mutex>              // std::mutex
+#include <condition_variable> // std::condition_variable
 ```
 
 ### How to Use:
@@ -35,7 +35,7 @@ shared resources is managed.
 std::queue<cv2::Mat> images();
 
 std::mutex queue_lock;
-std::cv queue_empty;
+std::condition_variable queue_empty;
 
 int main() {
     // Create the threads; set them to call these functions
@@ -62,7 +62,7 @@ void cameraDriver() {
         queue_lock.unlock();
 
         // Signal any thread waiting because the queue was empty
-        queue_empty.signal();
+        queue_empty.notify_one();
     }
 }
 ```
@@ -77,7 +77,7 @@ void cameraDriver() {
         queue_lock.lock();
         images.push(image);
         queue_lock.unlock();
-        queue_empty.signal();
+        queue_empty.notify_one();
     }
 }
 ```
@@ -89,15 +89,19 @@ void cameraDriver() {
 ```cpp
 void benchmarker() {
     while (1) {
-        // Acquire the lock on the shared resource (the queue)
-        queue_lock.lock();
+        // Create a unique_lock using the mutex we would lock/unlock
+        // NOTE: unique_lock is a "wrapper" for a std::mutex that will
+        // lock the mutex automatically upon creation, and unlocks the
+        // mutex when the variable is deleted or goes out of scope.
+        std::unique_lock<mutex> unique_queue_lock(queue_lock);
 
         // If the queue is empty, we cannot try and pop from it...
         // So, we must wait on the cv if it is empty
         // Use a while loop to verify the condition when woken up
         while (images.empty()) {
             // Pass the shared resource lock to release it while we wait
-            queue_empty.wait(queue_lock)
+            // condition_variable::wait requires a std::unique_lock.
+            queue_empty.wait(unique_queue_lock)
         }
 
         // This thread is holding the lock when we return from cv::wait
@@ -106,8 +110,9 @@ void benchmarker() {
         cv2::Mat image = images.front();
         images.pop();
 
-        // Release the lock on the shared queue
-        queue_lock.unlock();
+        // Release the lock on the shared queue. You can still lock and unlock
+        // a unique_lock like you would a mutex.
+        unique_queue_lock.unlock();
 
         // Process the iamge somehow...
         process(image);
@@ -122,13 +127,13 @@ void benchmarker() {
 ```cpp
 void benchmarker() {
     while (1) {
-        queue_lock.lock();
+        std::unique_lock<mutex> unique_queue_lock(queue_lock);
         while (images.empty()) {
-            queue_empty.wait(queue_lock)
+            queue_empty.wait(unique_queue_lock)
         }
         cv2::Mat image = images.front();
         images.pop();
-        queue_lock.unlock();
+        unique_queue_lock.unlock();
         process(image);
     }
 }

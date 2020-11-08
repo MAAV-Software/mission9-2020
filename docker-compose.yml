@@ -2,22 +2,22 @@ version: "2"
 
 services: 
   maav:
+    container_name: maav
     image: mission9
+    network_mode: "host"
     privileged: true
     volumes:
-      # Include custom packages
-      - ./maav:/workspace/src/maav
-      # Share non-ros utilities
-      - ./sim:/sim
-      - ./scripts:/scripts
+      # Share Mission 9 utilities, sim, and src
+      - ./scripts:/mission9/scripts
+      - ./sim:/mission9/sim
+      - ./maav:/mission9/workspace/src/maav
       # Share config files
       - $HOME/.tmux.conf:/root/.tmux.conf:rw
-      # GUI settings
+      # TODO Look over these GUI settings
       - $HOME/.Xauthority:/root/.Xauthority:rw # Enable to allow GUIs on Linux (X-server only)
       - /tmp/.X11-unix:/tmp/.X11-unix # needed for GUI
     environment:
+      # TODO These environment variables are also for GUI settings
       - DISPLAY
       - QT_X11_NO_MITSHM=1yy
-    network_mode: "host"
-    container_name: maav
-    command: "/bin/bash --init-file /mission9/scripts/setup-ros-source.sh"
+    entrypoint: /bin/bash --init-file /mission9/scripts/container-init.sh

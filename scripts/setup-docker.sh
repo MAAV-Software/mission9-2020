@@ -1,58 +1,61 @@
 #!/bin/bash
 
+# Use an appropriate amount of CPU cores based on this system
+cpu_cores=$(($(grep -c ^processor /proc/cpuinfo)-1))
+cpu_cores=$((cpu_cores > 1 ? cpu_cores : 1))
+
 # Update 
-apt-get update -y 
+apt-get -qq update
 apt-get dist-upgrade
 
 # Place apt in non interactive mode
 DEBIAN_FRONTEND=noninteractive
 
 # Install required packages
-# clang-format                    # Code formatter
-# cmake                           # Build system
-# cmake-curses-gui                # CMake config GUI
-# curl                            # Downloading stuff from websites
-# doxygen                         # Documentation
-# ffmpeg                          # Image processing library
-# gcc-5                           # GCC 5 required to build some libraries
-# git                             # Version control
-# libboost-all-dev                # Boost library
-# libboost-program-options-dev    # Boost program options
-# libboost-test-dev               # Boost test
-# libcurl4-openssl-dev            # OpenSSL support for curl
-# libeigen3-dev                   # Linear algebra library
-# libev-dev                       # Event loop (IO handling)
-# libflann1.9                     # Fast nearest neighbor
-# libflann-dev                    # Fast nearest neighbor dev
-# libglew-dev                     # OpenGL extension interface
-# libglfw3-dev                    # OpenGL Utilities
-# libglm-dev                      # OpenGL Math library
-# libgtkmm-3.0-dev                # GTK GUI, CPP version
-# libopenni2-dev                  # Framework for sensor interaction
-# libpcl-*                        # Point Could Library
-# libproj-dev                     # Projection library
-# libqhull-dev                    # Convex hull library
-# libssl-dev                      # SSL and TLS support
-# libudev-dev                     # Device manager for Linux kernel
-# libusb-1.0-0-dbg                # Debug stuff for libusb
-# libusb-1.0-0-dev                # USB interface for applications
-# libusb-1.0-doc                  # Documentation for libusb
-# libvtk6-dev                     # Visualization toolkit
-# libyaml-cpp-dev                 # YAML for config files
-# pkg-config                      # Package config
-# python3                         # Python 3
-# python3-pip                     # Python 3 package manager
-# python-catkin-tools             # catkin CLI tools
-# python-pip                      # Python 2 package manager
-# python-software-properties      # Managing pip resources
-# sl                              # system libraries
-# software-properties-common      # Managing apt resources
-# tmux                            # terminal manager
-# unzip                           # Extract zip files
-# vim                             # l33t ide
-# wget                            # Downloading stuff from websites
-# Previously used an apt-get command for each package
-apt-get install -y \
+    # clang-format                    # Code formatter
+    # cmake                           # Build system
+    # cmake-curses-gui                # CMake config GUI
+    # curl                            # Downloading stuff from websites
+    # doxygen                         # Documentation
+    # ffmpeg                          # Image processing library
+    # gcc-5                           # GCC 5 required to build some libraries
+    # git                             # Version control
+    # libboost-all-dev                # Boost library
+    # libboost-program-options-dev    # Boost program options
+    # libboost-test-dev               # Boost test
+    # libcurl4-openssl-dev            # OpenSSL support for curl
+    # libeigen3-dev                   # Linear algebra library
+    # libev-dev                       # Event loop (IO handling)
+    # libflann1.9                     # Fast nearest neighbor
+    # libflann-dev                    # Fast nearest neighbor dev
+    # libglew-dev                     # OpenGL extension interface
+    # libglfw3-dev                    # OpenGL Utilities
+    # libglm-dev                      # OpenGL Math library
+    # libgtkmm-3.0-dev                # GTK GUI, CPP version
+    # libopenni2-dev                  # Framework for sensor interaction
+    # libpcl-*                        # Point Could Library
+    # libproj-dev                     # Projection library
+    # libqhull-dev                    # Convex hull library
+    # libssl-dev                      # SSL and TLS support
+    # libudev-dev                     # Device manager for Linux kernel
+    # libusb-1.0-0-dbg                # Debug stuff for libusb
+    # libusb-1.0-0-dev                # USB interface for applications
+    # libusb-1.0-doc                  # Documentation for libusb
+    # libvtk6-dev                     # Visualization toolkit
+    # libyaml-cpp-dev                 # YAML for config files
+    # pkg-config                      # Package config
+    # python3                         # Python 3
+    # python3-pip                     # Python 3 package manager
+    # python-catkin-tools             # catkin CLI tools
+    # python-pip                      # Python 2 package manager
+    # python-software-properties      # Managing pip resources
+    # sl                              # system libraries
+    # software-properties-common      # Managing apt resources
+    # tmux                            # terminal manager
+    # unzip                           # Extract zip files
+    # vim                             # l33t ide
+    # wget                            # Downloading stuff from websites
+apt-get -qq install \
     clang-format \
     cmake \
     cmake-curses-gui \
@@ -79,7 +82,6 @@ apt-get install -y \
     libqhull-dev \
     libssl-dev \
     libudev-dev \
-    libusb-1.0-0-dbg \
     libusb-1.0-0-dev \
     libusb-1.0-doc \
     libvtk6-dev \
@@ -89,7 +91,6 @@ apt-get install -y \
     python3-pip \
     python-catkin-tools \
     python-pip \
-    python-software-properties \
     sl \
     software-properties-common \
     tmux \
@@ -98,13 +99,15 @@ apt-get install -y \
     wget \
     && rm -rf /var/lib/apt/lists/*  # -- Free space up (about 40MB) --
 
-num_procs_avail=$(($(grep -c ^processor /proc/cpuinfo)-1))
-num_procs_avail=$((num_procs_avail > 1 ? num_procs_avail : 1))
+# TODO Problematic installs:
+apt-get -qq install \
+    libusb-1.0-0-dbg \
+    python-software-properties \
 
 # Install Realsense 2.19.0
 # ------------------------
 cd /tmp 
-git clone -b 'v2.19.0' https://github.com/IntelRealSense/librealsense.git
+git clone --depth 1 -b 'v2.19.0' https://github.com/IntelRealSense/librealsense.git
 cd librealsense/
 # For people who have built-in cameras on their device
 # These three lines must be run first for the kernel patches to
@@ -119,9 +122,9 @@ udevadm control --reload-rules && udevadm trigger
 # Build and install
 mkdir build && cd build
 cmake ..
-make -j$num_procs_avail
+make -j$cpu_cores
 make install
-# TODO Delete Realsense source?
+# Delete Realsense source
 cd /
 rm -rf /tmp/librealsense
 
@@ -149,8 +152,8 @@ cmake -D BUILD_PNG=ON \
       -D BUILD_TESTS=OFF \
       -D CUDA_HOST_COMPILER:FILEPATH=/usr/bin/gcc-5 \
       ..
-make -j$num_procs_avail
+make -j$cpu_cores
 make install
-# TODO Delete OpenCV 3.3.1 source?
+# Delete OpenCV 3.3.1 source
 cd /
 rm -rf /tmp/opencv /tmp/opencv_contrib

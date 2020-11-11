@@ -1,6 +1,12 @@
 #!/bin/bash
 
+# Place apt in non interactive mode
+# TODO Is using export okay here?
+export DEBIAN_FRONTEND=noninteractive
+
 # ROS Tools
-apt-get install -y ros-melodic-rviz 
-apt-get install -y ros-melodic-rqt ros-melodic-rqt-common-plugins 
-apt-get install -y ros-melodic-octomap-*
+apt-get -qq install \
+    ros-melodic-rviz \
+    ros-melodic-rqt \
+    ros-melodic-rqt-common-plugins \
+    > /dev/null

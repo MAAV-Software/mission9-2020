@@ -4,12 +4,23 @@
 cpu_cores=$(($(grep -c ^processor /proc/cpuinfo)-1))
 cpu_cores=$((cpu_cores > 1 ? cpu_cores : 1))
 
-# Update 
-apt-get -qq update
-apt-get dist-upgrade
+# To "delete" stdout and print stderr to the terminal:
+# command-that-prints > /dev/null
+
+# Setup Git config to not print as much info
+git config --global advice.detachedHead false
 
 # Place apt in non interactive mode
-DEBIAN_FRONTEND=noninteractive
+# TODO Is using export okay here?
+export DEBIAN_FRONTEND=noninteractive
+
+# Update and Upgrades for apt-get
+echo "*** Updating package lists"
+apt-get -qq update
+echo "*** Installing apt-utils"
+apt-get -qq install apt-utils > /dev/null
+echo "*** Upgrading dependencies and packages intelligently"
+apt-get -qq dist-upgrade > /dev/null
 
 # Install required packages
     # clang-format                    # Code formatter
@@ -55,6 +66,7 @@ DEBIAN_FRONTEND=noninteractive
     # unzip                           # Extract zip files
     # vim                             # l33t ide
     # wget                            # Downloading stuff from websites
+echo "*** Installing required packages"
 apt-get -qq install \
     clang-format \
     cmake \
@@ -97,28 +109,31 @@ apt-get -qq install \
     unzip \
     vim \
     wget \
-    && rm -rf /var/lib/apt/lists/*  # -- Free space up (about 40MB) --
+    > /dev/null
 
 # TODO Problematic installs:
+echo "*** Running \"buggy\" apt-get installs"
 apt-get -qq install \
     libusb-1.0-0-dbg \
-    python-software-properties \
+    python-software-properties
 
 # Install Realsense 2.19.0
 # ------------------------
-cd /tmp 
+echo "*** Installing Realsense 2.19.0"
+cd /tmp
 git clone --depth 1 -b 'v2.19.0' https://github.com/IntelRealSense/librealsense.git
 cd librealsense/
 # For people who have built-in cameras on their device
 # These three lines must be run first for the kernel patches to
 # go through
+# TODO These don't work because it's a Docker container
 modprobe -r uvcvideo
 modprobe -r videobuf2_core
 modprobe -r videodev
 # udev rules for interfacing with cameras and kernel patch
 cp config/99-realsense-libusb.rules /etc/udev/rules.d/
 udevadm control --reload-rules && udevadm trigger
-./scripts/patch-realsense-ubuntu-lts.sh
+./scripts/patch-realsense-ubuntu-lts.sh > /dev/null
 # Build and install
 mkdir build && cd build
 cmake ..

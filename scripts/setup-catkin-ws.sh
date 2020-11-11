@@ -1,5 +1,9 @@
 #!/bin/bash
 
+# Use an appropriate amount of CPU cores based on this system
+cpu_cores=$(($(grep -c ^processor /proc/cpuinfo)-1))
+cpu_cores=$((cpu_cores > 1 ? cpu_cores : 1))
+
 # Make a Mission 9 repo directory
 # This will be mapped to the host machine's src folder
 # when starting a Docker container
@@ -15,8 +19,6 @@ cd avoidance && git checkout 8a957267c59282d689133f1b29057a79de335020
 # Make the catkin workspace; source ROS to use catkin
 source /opt/ros/melodic/setup.bash
 cd /mission9/workspace
-catkin build
+catkin build -j$cpu_cores
 # For less resource usage in case of issues building image:
 # catkin build -j2 --mem-limit 75%
-# TODO Necessary?
-# source /mission9/workspace/devel/setup.bash
